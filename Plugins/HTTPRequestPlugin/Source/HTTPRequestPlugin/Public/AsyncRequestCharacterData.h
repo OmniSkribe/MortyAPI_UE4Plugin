@@ -16,7 +16,7 @@ struct FCharacterData {
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly)
-	FText Character_Id;
+	FText Character_ID;
 	
 	UPROPERTY(BlueprintReadOnly)
 	FText Character_Name;
@@ -34,11 +34,10 @@ struct FCharacterData {
 	FText Character_Origin_Name;
 	
 	UPROPERTY(BlueprintReadOnly)
-	FText Character_Image_URL;
+	FString Character_Image_URL;
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDownloadDataDelegate, FCharacterData, Data);
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDownloadDataDelegate, FString, Name, FCharacterData, Data);
 
 UCLASS()
 class HTTPREQUESTPLUGIN_API UAsyncRequestCharacterData : public UBlueprintAsyncActionBase
@@ -46,7 +45,6 @@ class HTTPREQUESTPLUGIN_API UAsyncRequestCharacterData : public UBlueprintAsyncA
 	GENERATED_BODY()
 
 public:
-	// Why return class object?
 	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"))
 	static UAsyncRequestCharacterData* DownloadCharacerData();
 
@@ -54,10 +52,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FDownloadDataDelegate OnSuccess;
-protected:
-	FCharacterData requested_data;
 
 private:
-	// Handles data requests coming from the web
-	void HandleImageRequest(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded);
+	void HandleDataRequest(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded);
 };
